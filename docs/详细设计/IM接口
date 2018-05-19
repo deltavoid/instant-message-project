@@ -1,0 +1,14 @@
+
+
+IM接口
+
+控制接口
+
+    add(uid, gid)
+    remove(uid, gid)
+
+数据接口
+
+    put(src_uid, dst_uid, message_id)
+    put(src_uid, dst_gid, message_id)  //重载
+    get(uid)

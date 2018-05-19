@@ -1,0 +1,35 @@
+
+IMC 类图
+
+class IMC;
+
+class RequestEntry;
+
+class RequestCentre;
+
+class Request;
+
+class RequestHandler;
+
+class UpdateHandler;
+
+class UserMessageHandler;
+
+class GroupMessageHandler;
+
+class GetHandler;
+
+//class UserManager;
+
+class User;
+
+//class GroupManager;
+
+class Group;
+
+
+
+
+
+
+
