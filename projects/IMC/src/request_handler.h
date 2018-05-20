@@ -18,6 +18,7 @@ class RequestHandler
 
     static void* thread_entry(void* arg);
     void run();
+    virtual void do_request(Request* req);
 
     bool add_request(Request* req);
 };

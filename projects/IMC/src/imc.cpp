@@ -2,7 +2,8 @@
 
 IMC::IMC()
 {
-    backend = new RequestCentre();
+    user_manager = new UserManager();
+    backend = new RequestCentre(user_manager);
     frontend = new RequestEntry(backend);
 }
 

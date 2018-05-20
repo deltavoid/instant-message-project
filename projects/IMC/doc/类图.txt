@@ -3,29 +3,46 @@ IMC 类图
 
 class IMC;
 
+
 class RequestEntry;
+
+    class RequestGenerator;
 
 class RequestCentre;
 
+    class RequestHandler;
+
+        class UpdateHandler;
+
+        class UserMessageHandler;
+
+        class GroupMessageHandler;
+
+        class GetHandler;
+
+
+class UserManager;
+
+    class User;
+
+class GroupManager;
+
+    class Group;
+
+
 class Request;
 
-class RequestHandler;
+class Message
 
-class UpdateHandler;
+    class UserMessage;
 
-class UserMessageHandler;
+    class GroupMessage;
 
-class GroupMessageHandler;
 
-class GetHandler;
 
-//class UserManager;
 
-class User;
 
-//class GroupManager;
 
-class Group;
 
 
 

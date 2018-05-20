@@ -12,7 +12,9 @@ TARGET = main
 
 OBJECTS = main.o imc.o  \
           request_entry.o request_generator.o\
-		  request_centre.o request_handler.o request.o
+		  request_centre.o request_handler.o get_handler.o user_message_handler.o \
+		  user_manager.o user.o \
+		  request.o message.o
 
 all : $(TARGET)
 
@@ -37,8 +39,24 @@ request_centre.o : request_centre.cpp request_centre.h request_handler.h request
 request_handler.o : request_handler.cpp request_handler.h request.h
 	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
 
+get_handler.o : get_handler.cpp get_handler.h request_handler.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+user_message_handler.o : user_message_handler.cpp user_message_handler.h request_handler.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+user_manager.o : user_manager.cpp user_manager.h user.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+user.o : user.cpp user.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
 request.o : request.cpp request.h
 	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+message.o : message.cpp message.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
 
 
 

@@ -1,22 +1,35 @@
 #include "request_centre.h"
+#include "user_message_handler.h"
+#include "get_handler.h"
 
-RequestCentre::RequestCentre()
+RequestCentre::RequestCentre(UserManager* um)
+    : user_manager(um)
 {
-    const int num = 6;
+    const int num = 12;
     for (int i = 0; i < num; i++)
-    {   handlers.push_back(new RequestHandler());
+    {   user_message_handlers.push_back(new UserMessageHandler(user_manager));
+        get_handlers.push_back(new GetHandler(user_manager));
     }
 }
 
 RequestCentre::~RequestCentre()
 {
-    for (int i = 0; i < handlers.size(); i++)
-        delete handlers[i];
+    for (int i = 0; i < user_message_handlers.size(); i++)
+        delete user_message_handlers[i];
+    for (int i = 0; i < get_handlers.size(); i++)
+        delete get_handlers[i];
 }
 
-void RequestCentre::add_request(Request* req)
+void RequestCentre::add_user_message_request(Request* req)
 {
-    int id  = req->param[0] % handlers.size();
+    int id  = req->param[0] % user_message_handlers.size();
     req->param[1] = id;
-    handlers[id]->add_request(req);
+    user_message_handlers[id]->add_request(req);
+}
+
+void RequestCentre::add_get_request(Request* req)
+{
+    int id  = req->param[0] % get_handlers.size();
+    req->param[1] = id;
+    get_handlers[id]->add_request(req);
 }

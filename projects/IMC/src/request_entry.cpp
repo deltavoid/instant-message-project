@@ -7,7 +7,7 @@ RequestEntry::RequestEntry(RequestCentre* rc)
 {
     backend = rc;
 
-    const int num = 10;
+    const int num = 20;
     for (int i = 0; i < num; i++)
         generators.push_back(new RequestGenerator(backend, 100));
 
