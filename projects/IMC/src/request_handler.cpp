@@ -38,8 +38,8 @@ void RequestHandler::run()
         rq.pop();
         pthread_mutex_unlock(&mutex_rq);
 
-        //std::cout << "Request: " << req->op << " " << req->param[0] << " "
-        //          << req->param[1] << " " << req->param[2] << std::endl;
+        std::cout << "Request: " << req->op << " " << req->param[0] << " "
+                  << req->param[1] << " " << req->param[2] << std::endl;
         delete req;
 
     }
@@ -50,6 +50,7 @@ bool RequestHandler::add_request(Request* req)
     pthread_mutex_lock(&mutex_rq);
     //do queue overflow check
     rq.push(req);
+    std::cout << "queue size: " << rq.size() << std::endl;
     pthread_mutex_unlock(&mutex_rq);
     sem_post(&sem_rq);
 

@@ -2,7 +2,7 @@
 
 RequestCentre::RequestCentre()
 {
-    const int num = 10;
+    const int num = 6;
     for (int i = 0; i < num; i++)
     {   handlers.push_back(new RequestHandler());
     }

@@ -11,7 +11,8 @@ CXX_LIBS = -pthread
 TARGET = main
 
 OBJECTS = main.o imc.o  \
-          request_entry.o request_centre.o request_handler.o request.o
+          request_entry.o request_generator.o\
+		  request_centre.o request_handler.o request.o
 
 all : $(TARGET)
 
@@ -24,7 +25,10 @@ main.o : main.cpp imc.h
 imc.o : imc.cpp request_entry.h request_centre.h
 	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
 
-request_entry.o : request_entry.cpp request_entry.h request_centre.h
+request_entry.o : request_entry.cpp request_entry.h request_generator.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+request_generator.o : request_generator.cpp request_generator.h request_centre.h
 	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
 
 request_centre.o : request_centre.cpp request_centre.h request_handler.h request.h
