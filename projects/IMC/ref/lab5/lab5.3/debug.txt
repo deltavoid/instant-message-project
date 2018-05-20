@@ -1,0 +1,3 @@
+
+
+f,p 与 full,empty要匹配
