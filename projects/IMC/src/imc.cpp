@@ -11,4 +11,5 @@ IMC::~IMC()
 {
     delete frontend;
     delete backend;
+    delete user_manager;
 }

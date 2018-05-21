@@ -12,8 +12,8 @@ UserMessageHandler::~UserMessageHandler()
 
 void UserMessageHandler::do_request(Request* req)
 {
-    ll user_id = req->param[0];
-    ll message_id = req->param[1];
+    ll user_id = req->param[1];
+    ll message_id = req->param[2];
 
     User* user = user_manager->get_user(user_id);
     

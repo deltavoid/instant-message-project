@@ -1,5 +1,6 @@
 #include "request_generator.h"
 #include <cstdlib>
+#include <iostream>
 
 RequestGenerator::RequestGenerator(RequestCentre* rc, ll rate)
     : backend(rc), rate(rate)
@@ -26,6 +27,7 @@ void RequestGenerator::run()
 {
     const int user_num = 1000;
     const int max_period = 10;
+    const int max_socket = 100;
 
     while (true)
     {
@@ -39,14 +41,17 @@ void RequestGenerator::run()
                 req->param[0] = random() % user_num;
                 req->param[1] = random() % user_num;
                 req->param[2] = random();
-                backend->add_user_message_request(req);
             }
             else if  (op == 1)
             {   req = new Request(REQ_GET);
                 req->param[0] = random() % user_num;
-                backend->add_get_request(req);
+                req->param[1] = random() % max_socket;
             }
-            
+
+            std::cout << "Generate request: " << req->op << " " 
+                      << req->param[0] << " " << req->param[1] << " " << req->param[2] << std::endl;
+
+            backend->add_request(req);
         }
         sleep(random() % max_period);
     }

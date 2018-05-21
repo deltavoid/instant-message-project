@@ -21,6 +21,7 @@ void GetHandler::do_request(Request* req)
 
     //此处应使用迭代器，由user提供
     pthread_mutex_lock(&user->mutex_mq);
+    std::cout << "socket: " << req->param[1] << "message: ";
     while (!user->mq.empty())
     {   Message* message = user->mq.front();
         user->mq.pop();

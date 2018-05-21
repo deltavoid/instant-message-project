@@ -20,16 +20,31 @@ RequestCentre::~RequestCentre()
         delete get_handlers[i];
 }
 
-void RequestCentre::add_user_message_request(Request* req)
+void RequestCentre::add_request(Request* req)
 {
-    int id  = req->param[0] % user_message_handlers.size();
-    req->param[1] = id;
-    user_message_handlers[id]->add_request(req);
-}
+    switch(req->op)
+    {
+        case REQ_ADD:
+        break;
 
-void RequestCentre::add_get_request(Request* req)
-{
-    int id  = req->param[0] % get_handlers.size();
-    req->param[1] = id;
-    get_handlers[id]->add_request(req);
+        case REQ_REMOVE:
+        break;
+
+        case REQ_PUT_USER:
+        {   ll id = req->param[1] % user_message_handlers.size();
+            user_message_handlers[id]->add_request(req);
+        }
+        break;
+
+        case REQ_PUT_GROUP:
+        break;
+
+        case REQ_GET:
+        {   ll id = req->param[0] % get_handlers.size();
+            get_handlers[id]->add_request(req);
+        }
+        break;
+
+        default:
+    }
 }

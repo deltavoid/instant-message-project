@@ -14,8 +14,7 @@ class RequestCentre
     RequestCentre(UserManager* um);
     ~RequestCentre();
 
-    void add_user_message_request(Request* req);
-    void add_get_request(Request* req);
+    void add_request(Request* req);
     
 };
 
