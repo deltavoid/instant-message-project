@@ -9,7 +9,7 @@ class UserMessageHandler : public RequestHandler
     UserManager* user_manager;
 
     UserMessageHandler(UserManager* um);
-    ~UserMessageHandler();
+    virtual ~UserMessageHandler();
 
     virtual void do_request(Request* req);
 

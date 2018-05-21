@@ -10,7 +10,7 @@ class RequestGenerator
     ll rate;
 
     RequestGenerator(RequestCentre* rc, ll rate);
-    ~RequestGenerator();
+    virtual ~RequestGenerator();
 
     static void* thread_entry(void* arg);
     void run();

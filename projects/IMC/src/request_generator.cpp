@@ -36,7 +36,7 @@ void RequestGenerator::run()
     {
         for (int i = 0; i < rate; i++)
         {
-            ll op = random() % 3;
+            ll op = random() % 5;
             Request* req;
 
             if  (op == 0)
@@ -55,6 +55,16 @@ void RequestGenerator::run()
                 req->param[0] = random() % user_num;
                 req->param[1] = random() % group_num;
                 req->param[2] = random();
+            }
+            else if  (op == 3)
+            {   req = new Request(REQ_ADD);
+                req->param[0] = random() % user_num;
+                req->param[1] = random() % group_num;
+            }
+            else if  (op == 4)
+            {   req = new Request(REQ_REMOVE);
+                req->param[0] = random() % user_num;
+                req->param[1] = random() % group_num;
             }
             
             pthread_mutex_lock(&mutex_cout);

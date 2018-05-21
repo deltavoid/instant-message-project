@@ -10,7 +10,7 @@ class UserManager
     pthread_mutex_t mutex_um;  //it should use read-write lock
 
     UserManager();
-    ~UserManager();
+    virtual ~UserManager();
 
     User* get_user(ll id);
 

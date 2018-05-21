@@ -14,7 +14,7 @@ class RequestEntry
 
 
     RequestEntry(RequestCentre* rc);
-    ~RequestEntry();
+    virtual ~RequestEntry();
 
     static void* thread_entry(void* arg);
     void run();

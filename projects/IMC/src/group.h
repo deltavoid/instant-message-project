@@ -12,7 +12,7 @@ class Group
     pthread_mutex_t mutex_um;  //it should use read-write lock;
 
     Group();
-    ~Group();
+    virtual ~Group();
 
     bool add_user(ll id, User* user);
     bool remove_user(ll id);

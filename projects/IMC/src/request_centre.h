@@ -12,10 +12,11 @@ class RequestCentre
     GroupManager* group_manager;
     std::vector<RequestHandler*> user_message_handlers;
     std::vector<RequestHandler*> group_message_handlers;
+    std::vector<RequestHandler*> group_user_handlers;
     std::vector<RequestHandler*> get_handlers;
     
     RequestCentre(UserManager* um, GroupManager* gm);
-    ~RequestCentre();
+    virtual ~RequestCentre();
 
     void add_request(Request* req);
     

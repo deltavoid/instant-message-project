@@ -23,7 +23,7 @@ class Request
     ll param[3];
 
     Request(ll op = 0, ll p0 = 0, ll p1 = 0, ll p2 = 0);
-    ~Request();
+    virtual ~Request();
 };
 
 

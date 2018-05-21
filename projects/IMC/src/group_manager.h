@@ -10,7 +10,7 @@ class GroupManager
     pthread_mutex_t mutex_gm;
 
     GroupManager();
-    ~GroupManager();
+    virtual ~GroupManager();
 
     Group* get_group(ll id);
 };

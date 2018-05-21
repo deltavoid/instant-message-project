@@ -14,7 +14,7 @@ class IMC
 
 
     IMC();
-    ~IMC();
+    virtual ~IMC();
 
 };
 

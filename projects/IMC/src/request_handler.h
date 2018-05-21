@@ -14,7 +14,7 @@ class RequestHandler
     pthread_t tid;
 
     RequestHandler();
-    ~RequestHandler();
+    virtual ~RequestHandler();
 
     static void* thread_entry(void* arg);
     void run();

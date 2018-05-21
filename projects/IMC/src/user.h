@@ -11,7 +11,7 @@ class User
     pthread_mutex_t mutex_mq;
 
     User();
-    ~User();
+    virtual ~User();
 
 };
 

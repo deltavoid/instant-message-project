@@ -8,7 +8,7 @@ class GetHandler : public RequestHandler
     UserManager* user_manager;
 
     GetHandler(UserManager* um);
-    ~GetHandler();
+    virtual ~GetHandler();
 
     virtual void do_request(Request* req);
 
