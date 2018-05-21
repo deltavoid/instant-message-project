@@ -9,7 +9,7 @@ class GroupMessageHandler : public RequestHandler
     UserManager* user_manager;
     GroupManager* group_manager;
 
-    GroupMessageHandler(UserManager* um, GroupManager* gm);
+    GroupMessageHandler(GroupManager* gm);
     ~GroupMessageHandler();
 
     virtual void do_request(Request* req);

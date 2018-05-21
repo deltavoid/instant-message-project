@@ -1,19 +1,22 @@
 #ifndef GROUP_H
 #define GROUP_H
 #include "message.h"
+#include "user.h"
 #include <queue>
+#include <map>
 
-
-class UserInfo
-{public:
-    bool flag;
-    
-
-};
 
 class Group
 {public:
-    std::queue<Message*> mq;
+    std::map<ll, User*> um;
+    pthread_mutex_t mutex_um;  //it should use read-write lock;
+
+    Group();
+    ~Group();
+
+    bool add_user(ll id, User* user);
+    bool remove_user(ll id);
+    
 };
 
 #endif

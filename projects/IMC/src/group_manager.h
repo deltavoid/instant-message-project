@@ -2,6 +2,7 @@
 #define GROUP_MANAGER_H
 #include "group.h"
 #include <map>
+#include "pthread.h"
 
 class GroupManager
 {public:

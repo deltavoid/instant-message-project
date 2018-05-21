@@ -2,7 +2,7 @@
 
 GroupManager::GroupManager()
 {
-    pthread_mutex_init(&mutex_gm);
+    pthread_mutex_init(&mutex_gm, NULL);
 }
 
 GroupManager::~GroupManager()

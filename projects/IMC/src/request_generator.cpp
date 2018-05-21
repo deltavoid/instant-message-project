@@ -28,14 +28,15 @@ void* RequestGenerator::thread_entry(void* arg)
 void RequestGenerator::run()
 {
     const int user_num = 1000;
+    const int group_num = 1000;
     const int max_period = 10;
-    const int max_socket = 100;
+    const int socket_num = 100;
 
     while (true)
     {
         for (int i = 0; i < rate; i++)
         {
-            ll op = random() % 2;
+            ll op = random() % 3;
             Request* req;
 
             if  (op == 0)
@@ -47,7 +48,13 @@ void RequestGenerator::run()
             else if  (op == 1)
             {   req = new Request(REQ_GET);
                 req->param[0] = random() % user_num;
-                req->param[1] = random() % max_socket;
+                req->param[1] = random() % socket_num;
+            }
+            else if  (op == 2)
+            {   req = new Request(REQ_PUT_GROUP);
+                req->param[0] = random() % user_num;
+                req->param[1] = random() % group_num;
+                req->param[2] = random();
             }
             
             pthread_mutex_lock(&mutex_cout);

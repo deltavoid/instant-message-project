@@ -17,10 +17,12 @@ class UserMessage : public Message
     ll get_message();
 };
 
+/*
+
 class GroupMessage : public Message
 {public:
     
     ll get_message();
-};
+};*/
 
 #endif

@@ -1,13 +1,15 @@
 #include "request_centre.h"
 #include "user_message_handler.h"
+#include "group_message_handler.h"
 #include "get_handler.h"
 
-RequestCentre::RequestCentre(UserManager* um)
-    : user_manager(um)
+RequestCentre::RequestCentre(UserManager* um, GroupManager* gm)
+    : user_manager(um), group_manager(gm)
 {
     const int num = 12;
     for (int i = 0; i < num; i++)
     {   user_message_handlers.push_back(new UserMessageHandler(user_manager));
+        group_message_handlers.push_back(new GroupMessageHandler(group_manager));
         get_handlers.push_back(new GetHandler(user_manager));
     }
 }
@@ -18,6 +20,8 @@ RequestCentre::~RequestCentre()
         delete user_message_handlers[i];
     for (int i = 0; i < get_handlers.size(); i++)
         delete get_handlers[i];
+    for (int i = 0; i < get_handlers.size(); i++)
+        delete group_message_handlers[i];
 }
 
 void RequestCentre::add_request(Request* req)
@@ -37,6 +41,9 @@ void RequestCentre::add_request(Request* req)
         break;
 
         case REQ_PUT_GROUP:
+        {   ll id = req->param[1] % group_message_handlers.size();
+            group_message_handlers[id]->add_request(req);
+        }
         break;
 
         case REQ_GET:

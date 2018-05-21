@@ -12,8 +12,8 @@ TARGET = main
 
 OBJECTS = main.o imc.o  \
           request_entry.o request_generator.o\
-		  request_centre.o request_handler.o get_handler.o user_message_handler.o \
-		  user_manager.o user.o \
+		  request_centre.o request_handler.o get_handler.o user_message_handler.o group_message_handler.o \
+		  user_manager.o user.o group_manager.o group.o \
 		  request.o message.o
 
 all : $(TARGET)
@@ -49,6 +49,15 @@ user_manager.o : user_manager.cpp user_manager.h user.h
 	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
 
 user.o : user.cpp user.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+group_message_handler : group_message_handler.cpp group_message_handler.h 
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+group_manager.o : group_manager.cpp group_manager.h
+	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
+
+group.o : group.cpp group.h
 	$(CXX) $(CXX_FLAGS) $(CXX_INCLUDES) -o $@ -c $<
 
 request.o : request.cpp request.h
