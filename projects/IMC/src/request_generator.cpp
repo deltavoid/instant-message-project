@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <iostream>
 
+extern pthread_mutex_t mutex_cout;
+
 RequestGenerator::RequestGenerator(RequestCentre* rc, ll rate)
     : backend(rc), rate(rate)
 {
@@ -47,9 +49,11 @@ void RequestGenerator::run()
                 req->param[0] = random() % user_num;
                 req->param[1] = random() % max_socket;
             }
-
+            
+            pthread_mutex_lock(&mutex_cout);
             std::cout << "Generate request: " << req->op << " " 
                       << req->param[0] << " " << req->param[1] << " " << req->param[2] << std::endl;
+            pthread_mutex_unlock(&mutex_cout);
 
             backend->add_request(req);
         }

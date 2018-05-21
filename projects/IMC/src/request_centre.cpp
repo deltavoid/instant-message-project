@@ -46,5 +46,6 @@ void RequestCentre::add_request(Request* req)
         break;
 
         default:
+        break;
     }
 }
