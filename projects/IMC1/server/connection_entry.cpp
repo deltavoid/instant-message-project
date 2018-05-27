@@ -10,8 +10,8 @@
 #include <netinet/in.h>
 #include <sys/wait.h>
 
-ConnectionEntry::ConnectionEntry(/*ConnectionHandlerManager* chm,*/ short port, int backlog)
-    : /*chm(chm),*/ MYPORT(port), BACKLOG(backlog)
+ConnectionEntry::ConnectionEntry(ConnectionHandlerManager* chm, short port, int backlog)
+    : chm(chm)
 {
     //int sockfd, new_fd; /* listen on sock_fd, new connection on new_fd */
     struct sockaddr_in my_addr; /* my address information */
@@ -23,7 +23,7 @@ ConnectionEntry::ConnectionEntry(/*ConnectionHandlerManager* chm,*/ short port, 
     }
 
     my_addr.sin_family = AF_INET; /* host byte order */
-    my_addr.sin_port = htons(MYPORT); /* short, network byte order */
+    my_addr.sin_port = htons(port); /* short, network byte order */
     my_addr.sin_addr.s_addr = INADDR_ANY; /* auto-fill with my IP */
     bzero(&(my_addr.sin_zero), sizeof(my_addr.sin_zero)); /* zero the rest of the struct */
     
@@ -32,7 +32,7 @@ ConnectionEntry::ConnectionEntry(/*ConnectionHandlerManager* chm,*/ short port, 
         exit(1);
     }
 
-    if (listen(sockfd, BACKLOG) == -1) {
+    if (listen(sockfd, backlog) == -1) {
         perror("listen");
         exit(1);
     }
@@ -43,6 +43,7 @@ ConnectionEntry::ConnectionEntry(/*ConnectionHandlerManager* chm,*/ short port, 
 
 ConnectionEntry::~ConnectionEntry()
 {
+    close(sockfd);
 }
 
 void* ConnectionEntry::thread_entry(void* arg)
@@ -57,31 +58,17 @@ void ConnectionEntry::run()
 {
     int new_fd;
     struct sockaddr_in their_addr; /* connector's address information */
-    int sin_size;
+    int sin_size = sizeof(struct sockaddr_in);
 
     while(true) { /* main accept() loop */
-        sin_size = sizeof(struct sockaddr_in);
 
-        if ((new_fd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&sin_size)) == -1)        {
+        if ((new_fd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&sin_size)) == -1) {
             perror("accept");
             continue;
         }
 
         printf("server: got connection from %s\n", inet_ntoa(their_addr.sin_addr));
 
-        if (!fork())
-        { /* this is the child process */
-
-            if (send(new_fd, "Hello, world!\n", 14, 0) == -1)
-                perror("send");
-
-            close(new_fd);
-            exit(0);
-        }
-
-        close(new_fd); /* parent doesn't need this */
-
-        while (waitpid(-1, NULL, WNOHANG) > 0)    ; /* clean up child processes */
-
+        chm->add_request(new int(new_fd));
     }
 }

@@ -17,5 +17,5 @@ ConnectionHandlerManager::~ConnectionHandlerManager()
 void ConnectionHandlerManager::add_request(void* req)
 {
     int id = random() % chs.size();
-    chs[id].add_request(req);
+    chs[id]->add_request(req);
 }

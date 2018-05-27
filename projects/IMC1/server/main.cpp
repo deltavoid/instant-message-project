@@ -1,9 +1,9 @@
 #include <iostream>
-#include "connection_entry.h"
+#include "IMC.h"
 
 int main()
 {
-    ConnectionEntry* ce = new ConnectionEntry(3490, 10);
+    IMC* imc = new IMC();
     
     while (true) ;
 

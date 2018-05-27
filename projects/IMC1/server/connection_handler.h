@@ -6,7 +6,7 @@ class ConnectionHandler : public Handler
 {public:
     
     ConnectionHandler();
-    virtual ~Connectionhandler();
+    virtual ~ConnectionHandler();
 
     virtual void do_request(void* req);
 };

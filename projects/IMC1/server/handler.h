@@ -17,7 +17,7 @@ class Handler
 
     static void* thread_entry(void* arg);
     void run();
-    virtual void do_request(void* req);
+    virtual void do_request(void* req) = 0;
 
     bool add_request(void* req);
 };

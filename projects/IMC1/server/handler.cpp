@@ -44,8 +44,8 @@ void Handler::run()
 
 void Handler::do_request(void* req)
 {
-    std::cout << "request at " << req << std::endl;
-    delete req;
+    //std::cout << "request at " << req << std::endl;
+    //delete req;
 }
 
 bool Handler::add_request(void* req)
