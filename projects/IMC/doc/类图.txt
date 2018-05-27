@@ -12,7 +12,7 @@ class RequestCentre;
 
     class RequestHandler;
 
-        class UpdateHandler;
+        class GroupUserHandler;
 
         class UserMessageHandler;
 
@@ -35,8 +35,6 @@ class Request;
 class Message
 
     class UserMessage;
-
-    class GroupMessage;
 
 
 
