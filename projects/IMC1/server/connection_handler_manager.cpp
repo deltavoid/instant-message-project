@@ -1,11 +1,12 @@
 #include "connection_handler_manager.h"
 #include <cstdlib>
 
-ConnectionHandlerManager::ConnectionHandlerManager()
+ConnectionHandlerManager::ConnectionHandlerManager(UserManager* um, GroupManager* gm)
+    : um(um), gm(gm)
 {
     const int num = 4;
     for (int i = 0; i < num; i++)
-        chs.push_back(new ConnectionHandler());
+        chs.push_back(new ConnectionHandler(um, gm));
 }
 
 ConnectionHandlerManager::~ConnectionHandlerManager()
