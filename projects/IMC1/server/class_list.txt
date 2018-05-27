@@ -10,12 +10,25 @@ ConnectionEntry
 
 ConnecitonHandlerManager
 
-//GroupHandlerManager
+GroupHandlerManager
 
 
 Handler
 
     ConnectionHandler
 
-    //GroupHandler
+    GroupHandler
+
+
+GroupManager
+
+   Group
+
+UserManager
+
+   User
+
+
+Request
+
 
