@@ -3,7 +3,6 @@
 
 class NetworkClient
 {public:
-    int MAXDATASIZE = 100; /* 每次可以接收的最大字节 */
     int sockfd;
     
     NetworkClient(const char* hostname, short port);
