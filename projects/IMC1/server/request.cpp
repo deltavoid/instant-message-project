@@ -8,7 +8,3 @@ Request::Request(ll op, ll p0, ll p1, ll p2) : op(op)
     param[1] = p1;
     param[2] = p2;
 }
-
-Request::~Request()
-{
-}

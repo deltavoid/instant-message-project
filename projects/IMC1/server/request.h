@@ -17,13 +17,12 @@ typedef long long ll;
 #define REQ_PUT_GROUP   0x12
 #define REQ_GET         0x21
 
-class Request
-{public:
+struct Request
+{
     ll op;
     ll param[3];
 
     Request(ll op = 0, ll p0 = 0, ll p1 = 0, ll p2 = 0);
-    virtual ~Request();
 };
 
 

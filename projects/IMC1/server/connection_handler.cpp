@@ -39,8 +39,8 @@ static int recvfull(int fd, char* msg, int len, int flags) {
     return (len - remaining);
 }
 
-ConnectionHandler::ConnectionHandler(UserManager* um, GroupManager* gm)
-    : Handler(), um(um), gm(gm)
+ConnectionHandler::ConnectionHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm)
+    : Handler(), um(um), gm(gm), ghm(ghm)
 {
 }
 
@@ -48,9 +48,10 @@ ConnectionHandler::~ConnectionHandler()
 {
 }
 
-void ConnectionHandler::do_request(void* req)
+void ConnectionHandler::do_request(void* arg)
 {
-    int sockfd = (*(int*)req);
+    int* req = (int*)arg;
+    int sockfd = *req;
     std::cout << "sockfd is " << sockfd << std::endl;
 
     //receive request 
@@ -61,7 +62,7 @@ void ConnectionHandler::do_request(void* req)
     handle(request, sockfd);
 
     close(sockfd);
-    delete (int*)req;
+    delete req;
 }
 
 void ConnectionHandler::handle(Request* req, int sockfd)
@@ -87,6 +88,8 @@ void ConnectionHandler::handle_add(Request* req)
     Group* group = gm->get_group(gid);
     User* user = um->get_user(uid);
     group->add_user(uid, user);
+    
+    delete req;
 }
 
 void ConnectionHandler::handle_remove(Request* req)
@@ -95,18 +98,25 @@ void ConnectionHandler::handle_remove(Request* req)
     ll gid = req->param[1];
     Group* group = gm->get_group(gid);
     group->remove_user(uid);
+
+    delete req;
 }
 
 void ConnectionHandler::handle_user_message(Request* req)
 {
     ll uid = req->param[1];
     ll message_id = req->param[2];
+    
+
     User* user = um->get_user(uid);
     user->put_message(message_id);
+
+    delete req;
 }
 
 void ConnectionHandler::handle_group_message(Request* req)
 {
+    ghm->add_request(req);
 }
 
 void ConnectionHandler::handle_get(Request* req, int sockfd)
@@ -126,4 +136,6 @@ void ConnectionHandler::handle_get(Request* req, int sockfd)
     }
     std::cout << std::endl;
     pthread_mutex_unlock(&user->mutex_mq);
+
+    delete req;
 }

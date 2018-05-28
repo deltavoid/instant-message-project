@@ -4,16 +4,18 @@
 #include "request.h"
 #include "user_manager.h"
 #include "group_manager.h"
+#include "group_handler_manager.h"
 
 class ConnectionHandler : public Handler
 {public:
     UserManager* um;
     GroupManager* gm;
+    GroupHandlerManager* ghm;
     
-    ConnectionHandler(UserManager* um, GroupManager* gm);
+    ConnectionHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm);
     virtual ~ConnectionHandler();
 
-    virtual void do_request(void* req);
+    virtual void do_request(void* arg);
 
     void handle(Request* req, int sockfd);
     void handle_add(Request* req);

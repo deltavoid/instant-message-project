@@ -7,8 +7,8 @@
 #include "network_client.h"
 #include "request.h"
 
-const int user_num = 1;
-const int group_num = 10;
+const int user_num = 10;
+const int group_num = 1;
 NetworkClient* nc;
 
 
@@ -70,10 +70,10 @@ void gen_request(int type)
 {
     switch(type)
     {
-        case 0:  //gen_add();  break;
+        case 0:  gen_add();  break;
         case 1:  //gen_remove();  break;
-        case 2:  gen_user_message();  break;
-        case 3:  //gen_group_message();  break;
+        case 2:  //gen_user_message();  break;
+        case 3:  gen_group_message();  break;
         case 4:  gen_get();  break;
         default:  break;
     }

@@ -43,6 +43,7 @@ ConnectionEntry::ConnectionEntry(ConnectionHandlerManager* chm, short port, int 
 
 ConnectionEntry::~ConnectionEntry()
 {
+    pthread_cancel(tid);
     close(sockfd);
 }
 

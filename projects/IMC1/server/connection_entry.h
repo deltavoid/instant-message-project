@@ -10,14 +10,12 @@ class ConnectionEntry
     //socket info
     int sockfd;
     
-    
 
     ConnectionEntry(ConnectionHandlerManager* chm, short port = 3490, int backlog = 10);
     virtual ~ConnectionEntry();
 
     static void* thread_entry(void* arg);
     void run();
-
 
 };
 
