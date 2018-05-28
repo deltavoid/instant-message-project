@@ -19,6 +19,7 @@ void gen_add()
     req->param[0] = random() % user_num;
     req->param[1] = random() % group_num;
     nc->sendfull((char*)req, sizeof(Request), 0);
+    delete req;
 }
 
 void gen_remove()
@@ -27,6 +28,7 @@ void gen_remove()
     req->param[0] = random() % user_num;
     req->param[1] = random() % group_num;
     nc->sendfull((char*)req, sizeof(Request), 0);
+    delete req;
 }
 
 void gen_user_message()
@@ -36,6 +38,7 @@ void gen_user_message()
     req->param[1] = random() % user_num;
     req->param[2] = random();
     nc->sendfull((char*)req, sizeof(Request), 0);
+    delete req;
 }
 
 void gen_group_message()
@@ -45,6 +48,7 @@ void gen_group_message()
     req->param[1] = random() % user_num;
     req->param[2] = random();
     nc->sendfull((char*)req, sizeof(Request), 0);
+    delete req;
 }
 
 void gen_get()
@@ -64,6 +68,7 @@ void gen_get()
         std::cout << id << " ";
     }
     std::cout << std::endl;
+    delete req;
 }
 
 void gen_request(int type)

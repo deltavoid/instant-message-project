@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstdio>
 #include "IMC.h"
 
 int main()
