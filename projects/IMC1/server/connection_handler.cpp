@@ -106,10 +106,10 @@ void ConnectionHandler::handle_user_message(Request* req)
 {
     ll uid = req->param[1];
     ll message_id = req->param[2];
+    Message* message = new Message(message_id, uid);
     
-
     User* user = um->get_user(uid);
-    user->put_message(message_id);
+    user->put_message(message);
 
     delete req;
 }
@@ -126,13 +126,18 @@ void ConnectionHandler::handle_get(Request* req, int sockfd)
 
     pthread_mutex_lock(&user->mutex_mq);
     ll num = user->mq.size();
-    std::cout << "num: " << num << " message: ";
+    std::cout << "num: " << num << " message: " << std::endl;
     sendfull(sockfd, (char*)&num, sizeof(ll), 0);
+    
     for (int i = 0; i < num; i++)
-    {   ll id = user->mq.front();
+    {   Message* message = user->mq.front();
         user->mq.pop();
-        std::cout << id << " ";
-        sendfull(sockfd, (char*)&id, sizeof(ll), 0);
+        std::cout << "message_id: " << message->message_id
+                  << " user_id: " << message->user_id
+                  << " group_id: " << message->group_id
+                  << std::endl;
+        sendfull(sockfd, (char*)message, sizeof(Message), 0);
+        delete message;
     }
     std::cout << std::endl;
     pthread_mutex_unlock(&user->mutex_mq);
