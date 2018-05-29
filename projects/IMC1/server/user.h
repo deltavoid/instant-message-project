@@ -3,22 +3,23 @@
 #include <vector>
 #include <queue>
 #include <pthread.h>
+#include "message.h"
 
 
 typedef long long ll;
-//typedef ll message_t;
+
 
 
 class User
 {public:
-    std::queue<ll> mq;
+    std::queue<Message*> mq;
     pthread_mutex_t mutex_mq;
 
     User();
     virtual ~User();
 
-    bool put_message(ll message_id);
-    std::vector<ll>* get_all_message();
+    bool put_message(Message* message);
+    std::vector<Message*>* get_all_message();
 };
 
 #endif

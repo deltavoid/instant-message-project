@@ -12,16 +12,16 @@ User::~User()
     pthread_mutex_destroy(&mutex_mq);
 }
 
-bool User::put_message(ll message_id)
+bool User::put_message(Message* message)
 {
     pthread_mutex_lock(&mutex_mq);
-    mq.push(message_id);
+    mq.push(message);
     pthread_mutex_unlock(&mutex_mq);
 }
 
-std::vector<ll>* User::get_all_message()
+std::vector<Message*>* User::get_all_message()
 {
-    std::vector<ll>* res = new std::vector<ll>();
+    std::vector<Message*>* res = new std::vector<Message*>();
     pthread_mutex_lock(&mutex_mq);
     while (!mq.empty())
     {   res->push_back(mq.front());
