@@ -7,7 +7,8 @@
 class GroupManager
 {public:
     std::map<ll, Group*> gm;
-    pthread_mutex_t mutex_gm;
+    //pthread_mutex_t mutex_gm;
+    pthread_rwlock_t lock_gm;
 
     GroupManager();
     virtual ~GroupManager();
