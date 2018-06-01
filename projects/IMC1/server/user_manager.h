@@ -6,8 +6,9 @@
 
 class UserManager
 {public:
-    std::map<ll, User*> user_map;//it should use hash_map;
-    pthread_mutex_t mutex_um;  //it should use read-write lock
+    std::map<ll, User*> um;//it should use hash_map;
+    //pthread_mutex_t mutex_um;  //it should use read-write lock
+    pthread_rwlock_t lock_um;
 
     UserManager();
     virtual ~UserManager();
