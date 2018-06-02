@@ -12,7 +12,7 @@ class ConnectionHandlerManager
     ConnectionHandlerManager(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm);
     virtual ~ConnectionHandlerManager();
 
-    void add_request(int* req);
+    void add_handler(int sockfd);
 };
 
 #endif
