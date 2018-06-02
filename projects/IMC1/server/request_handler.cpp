@@ -3,7 +3,6 @@
 #include <iostream>
 
 
-
 RequestHandler::RequestHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm)
     : Handler(), um(um), gm(gm), ghm(ghm)
 {
@@ -81,10 +80,13 @@ void RequestHandler::handle_get(Request* req)
     int sockfd = (int)req->param[1];
     User* user = um->get_user(uid);
 
+    char* cur = buf;
     pthread_mutex_lock(&user->mutex_mq);
     ll num = user->mq.size();
     //std::cout << "num: " << num << " message: " << std::endl;
-    sendfull(sockfd, (char*)&num, sizeof(ll), 0);
+    //sendfull(sockfd, (char*)&num, sizeof(ll), 0);
+    memcpy(cur, &num, sizeof(ll));
+    cur += sizeof(ll);
     
     for (int i = 0; i < num; i++)
     {   Message* message = user->mq.front();
@@ -93,11 +95,14 @@ void RequestHandler::handle_get(Request* req)
                   << " user_id: " << message->user_id
                   << " group_id: " << message->group_id
                   << std::endl;*/
-        sendfull(sockfd, (char*)message, sizeof(Message), 0);
+        //sendfull(sockfd, (char*)message, sizeof(Message), 0);
+        memcpy(cur, (char*)message, sizeof(Message));
+        cur += sizeof(Message);
         delete message;
     }
     //std::cout << std::endl;
     pthread_mutex_unlock(&user->mutex_mq);
+    sendfull(sockfd, buf, cur - buf, 0);
 
     delete req;
 }

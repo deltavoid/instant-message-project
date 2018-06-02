@@ -61,20 +61,20 @@ void gen_get()
 
     ll num = 0;
     nc->recvfull((char*)&num, sizeof(ll), 0);
-    std::cout << "user: " << req->param[0]
+    /*std::cout << "user: " << req->param[0]
               << " num: " << num
-              << " message: " << std::endl;
+              << " message: " << std::endl;*/
 
     for (int i = 0; i < num; i++)
     {   Message* message = new Message();
         nc->recvfull((char*)message, sizeof(Message), 0);
-        std::cout << "message_id: " << message->message_id
+        /*std::cout << "message_id: " << message->message_id
                   << " user_id: " << message->user_id
                   << " group_id: " << message->group_id
-                  << std::endl;
+                  << std::endl;*/
         delete message;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
     delete req;
 }
 
@@ -102,12 +102,13 @@ int main(int argc, char *argv[])
     sscanf(argv[2], "%d", &num);
     
     srand(time(NULL));
-    nc = new NetworkClient(argv[1], 3490);
+    
     for (int i = 0; i < num; i++)
     {
+        nc = new NetworkClient(argv[1], 3490);
         gen_request(/*random()*/i % 5);
+        delete nc;
     }
-    delete nc;
-
+    
     return 0;
 }

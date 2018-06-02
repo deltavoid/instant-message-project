@@ -11,6 +11,9 @@ class RequestHandler : public Handler
     UserManager* um;
     GroupManager* gm;
     GroupHandlerManager* ghm;
+
+    static const int BufSize = 65536;
+    char buf[BufSize];
     
     RequestHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm);
     virtual ~RequestHandler();
