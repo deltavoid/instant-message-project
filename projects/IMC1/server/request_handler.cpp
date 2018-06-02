@@ -23,8 +23,8 @@ void RequestHandler::do_request(void* arg)
 
 void RequestHandler::handle(Request* req)
 {
-    std::cout << "req: " << req->op << " " 
-              << req->param[0] << " " << req->param[1] << " " << req->param[2] << std::endl;
+    /*std::cout << "req: " << req->op << " " 
+              << req->param[0] << " " << req->param[1] << " " << req->param[2] << std::endl;*/
 
     switch(req->op)
     {
@@ -83,20 +83,20 @@ void RequestHandler::handle_get(Request* req)
 
     pthread_mutex_lock(&user->mutex_mq);
     ll num = user->mq.size();
-    std::cout << "num: " << num << " message: " << std::endl;
+    //std::cout << "num: " << num << " message: " << std::endl;
     sendfull(sockfd, (char*)&num, sizeof(ll), 0);
     
     for (int i = 0; i < num; i++)
     {   Message* message = user->mq.front();
         user->mq.pop();
-        std::cout << "message_id: " << message->message_id
+        /*std::cout << "message_id: " << message->message_id
                   << " user_id: " << message->user_id
                   << " group_id: " << message->group_id
-                  << std::endl;
+                  << std::endl;*/
         sendfull(sockfd, (char*)message, sizeof(Message), 0);
         delete message;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
     pthread_mutex_unlock(&user->mutex_mq);
 
     delete req;

@@ -68,7 +68,7 @@ void ConnectionEntry::run()
             continue;
         }
 
-        printf("server: got connection from %s\n", inet_ntoa(their_addr.sin_addr));
+        //printf("server: got connection from %s\n", inet_ntoa(their_addr.sin_addr));
 
         chm->add_handler(new_fd);
     }

@@ -18,33 +18,6 @@ ConnectionHandler::~ConnectionHandler()
     pthread_cancel(tid);
 }
 
-<<<<<<< HEAD
-
-void* ConnectionHandler::thread_entry(void* arg)
-{
-    ConnectionHandler* This = (ConnectionHandler*)arg;
-    This->run();
-
-    return NULL;
-}
-
-
-void ConnectionHandler::run()
-{
-    while (true)
-    {
-        //receive request 
-        Request* request = new Request();
-        int len = recvfull(sockfd, (char*)request, sizeof(Request), 0);
-        if  (len == 0)  break;
-
-        //handle request
-        handle(request, sockfd);
-    }
-
-}
-=======
->>>>>>> dev1
 
 void* ConnectionHandler::thread_entry(void* arg)
 {
