@@ -25,41 +25,6 @@
 #include <iostream>
 #include <sstream>
 
-template<typename T>
-static T getOpt(const char* name, T defVal) {
-    const char* opt = getenv(name);
-
-    std::cout << name << " = " << opt << std::endl;
-    if (!opt) return defVal;
-    std::stringstream ss(opt);
-    if (ss.str().length() == 0) return defVal;
-    T res;
-    ss >> res;
-    if (ss.fail()) {
-        std::cerr << "WARNING: Option " << name << "(" << opt << ") could not"\
-            << " be parsed, using default" << std::endl;
-        return defVal;
-    }   
-    return res;
-}
-
-static uint64_t getCurNs() {
-    struct timespec ts;
-    clock_gettime(CLOCK_REALTIME, &ts);
-    uint64_t t = ts.tv_sec*1000*1000*1000 + ts.tv_nsec;
-    return t;
-}
-
-static void sleepUntil(uint64_t targetNs) {
-    uint64_t curNs = getCurNs();
-    while (curNs < targetNs) {
-        uint64_t diffNs = targetNs - curNs;
-        struct timespec ts = {(time_t)(diffNs/(1000*1000*1000)), 
-            (time_t)(diffNs % (1000*1000*1000))};
-        nanosleep(&ts, NULL); //not guaranteed, hence the loop
-        curNs = getCurNs();
-    }
-}
 
 static int sendfull(int fd, const char* msg, int len, int flags) {
     int remaining = len;
