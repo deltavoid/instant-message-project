@@ -39,30 +39,42 @@ static int recvfull(int fd, char* msg, int len, int flags) {
     return (len - remaining);
 }
 
-ConnectionHandler::ConnectionHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm)
-    : Handler(), um(um), gm(gm), ghm(ghm)
+ConnectionHandler::ConnectionHandler(int sockfd, UserManager* um, GroupManager* gm, GroupHandlerManager* ghm)
+    : sockfd(sockfd), um(um), gm(gm), ghm(ghm)
 {
+    std::cout << "sockfd: " << sockfd << std::endl;
+    pthread_create(&tid, NULL, thread_entry, (void*)this);
+    pthread_detach(tid);
 }
 
 ConnectionHandler::~ConnectionHandler()
 {
+    pthread_cancel(tid);
 }
 
-void ConnectionHandler::do_request(void* arg)
+
+void* ConnectionHandler::thread_entry(void* arg)
 {
-    int* req = (int*)arg;
-    int sockfd = *req;
-    std::cout << "sockfd is " << sockfd << std::endl;
+    ConnectionHandler* This = (ConnectionHandler*)arg;
+    This->run();
 
-    //receive request 
-    Request* request = new Request();
-    int len = recvfull(sockfd, (char*)request, sizeof(Request), 0);
-    
-    //handle request
-    handle(request, sockfd);
+    return NULL;
+}
 
-    close(sockfd);
-    delete req;
+
+void ConnectionHandler::run()
+{
+    while (true)
+    {
+        //receive request 
+        Request* request = new Request();
+        int len = recvfull(sockfd, (char*)request, sizeof(Request), 0);
+        if  (len == 0)  break;
+
+        //handle request
+        handle(request, sockfd);
+    }
+
 }
 
 void ConnectionHandler::handle(Request* req, int sockfd)

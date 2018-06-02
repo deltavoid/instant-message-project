@@ -4,9 +4,6 @@
 ConnectionHandlerManager::ConnectionHandlerManager(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm)
     : um(um), gm(gm), ghm(ghm)
 {
-    const int num = 4;
-    for (int i = 0; i < num; i++)
-        chs.push_back(new ConnectionHandler(um, gm, ghm));
 }
 
 ConnectionHandlerManager::~ConnectionHandlerManager()
@@ -15,8 +12,7 @@ ConnectionHandlerManager::~ConnectionHandlerManager()
         delete chs[i];
 }
 
-void ConnectionHandlerManager::add_request(int* req)
+void ConnectionHandlerManager::add_handler(int sockfd)
 {
-    int id = random() % chs.size();
-    chs[id]->add_request(req);
+    chs.push_back(new ConnectionHandler(sockfd, um, gm, ghm));
 }

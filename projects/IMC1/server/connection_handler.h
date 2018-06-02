@@ -5,17 +5,21 @@
 #include "user_manager.h"
 #include "group_manager.h"
 #include "group_handler_manager.h"
+#include "pthread.h"
 
-class ConnectionHandler : public Handler
+class ConnectionHandler 
 {public:
     UserManager* um;
     GroupManager* gm;
     GroupHandlerManager* ghm;
+    int sockfd;
+    pthread_t tid;
     
-    ConnectionHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm);
+    ConnectionHandler(int sockfd, UserManager* um, GroupManager* gm, GroupHandlerManager* ghm);
     virtual ~ConnectionHandler();
 
-    virtual void do_request(void* arg);
+    static void* thread_entry(void* arg);
+    void run();
 
     void handle(Request* req, int sockfd);
     void handle_add(Request* req);

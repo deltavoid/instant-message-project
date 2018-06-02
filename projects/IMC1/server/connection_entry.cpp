@@ -70,6 +70,6 @@ void ConnectionEntry::run()
 
         printf("server: got connection from %s\n", inet_ntoa(their_addr.sin_addr));
 
-        chm->add_request(new int(new_fd));
+        chm->add_handler(new_fd);
     }
 }

@@ -102,12 +102,12 @@ int main(int argc, char *argv[])
     sscanf(argv[2], "%d", &num);
     
     srand(time(NULL));
+    nc = new NetworkClient(argv[1], 3490);
     for (int i = 0; i < num; i++)
     {
-        nc = new NetworkClient(argv[1], 3490);
         gen_request(/*random()*/i % 5);
-        delete nc;
     }
+    delete nc;
 
     return 0;
 }
