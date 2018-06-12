@@ -1,6 +1,7 @@
 #include "request_handler.h"
 #include "helpers.h"
 #include <iostream>
+#include <algorithm>
 
 
 RequestHandler::RequestHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm)
@@ -82,7 +83,7 @@ void RequestHandler::handle_get(Request* req)
 
     char* cur = buf;
     pthread_mutex_lock(&user->mutex_mq);
-    ll num = user->mq.size();
+    ll num = std::min((ll)MaxRequests,  (ll)user->mq.size());
     //std::cout << "num: " << num << " message: " << std::endl;
     //sendfull(sockfd, (char*)&num, sizeof(ll), 0);
     memcpy(cur, &num, sizeof(ll));

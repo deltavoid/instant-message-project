@@ -12,7 +12,8 @@ class RequestHandler : public Handler
     GroupManager* gm;
     GroupHandlerManager* ghm;
 
-    static const int BufSize = 65536;
+    static const int MaxRequests = 200;
+    static const int BufSize = MaxRequests * sizeof(Message)  + 1000;
     char buf[BufSize];
     
     RequestHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm);
