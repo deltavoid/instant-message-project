@@ -19,6 +19,7 @@ bool User::put_message(Message* message)
     pthread_mutex_unlock(&mutex_mq);
 }
 
+/*
 std::vector<Message*>* User::get_all_message()
 {
     std::vector<Message*>* res = new std::vector<Message*>();
@@ -29,4 +30,39 @@ std::vector<Message*>* User::get_all_message()
     }
     pthread_mutex_unlock(&mutex_mq);
     return res;
+}*/
+
+UserIterator* User::create_iterator()
+{
+    return new UserIterator(this);
+}
+
+
+UserIterator::UserIterator(User* user) : user(user)
+{
+}
+
+UserIterator::~UserIterator()
+{
+    pthread_mutex_unlock(&user->mutex_mq);
+}
+
+void UserIterator::first()
+{
+    pthread_mutex_lock(&user->mutex_mq);
+}
+
+void UserIterator::next()
+{
+    user->mq.pop();
+}
+
+bool UserIterator::is_done()
+{
+    return user->mq.empty();
+}
+
+Message* UserIterator::current_item()
+{
+    return user->mq.front();
 }
