@@ -11,6 +11,10 @@ class RequestHandler : public Handler
     UserManager* um;
     GroupManager* gm;
     GroupHandlerManager* ghm;
+
+    static const int MaxRequests = 200;
+    static const int BufSize = MaxRequests * sizeof(Message)  + 100;
+    char buf[BufSize];
     
     RequestHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm);
     virtual ~RequestHandler();

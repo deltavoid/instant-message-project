@@ -1,7 +1,7 @@
 #include "request_handler.h"
 #include "helpers.h"
 #include <iostream>
-
+#include <algorithm>
 
 
 RequestHandler::RequestHandler(UserManager* um, GroupManager* gm, GroupHandlerManager* ghm)
@@ -23,8 +23,8 @@ void RequestHandler::do_request(void* arg)
 
 void RequestHandler::handle(Request* req)
 {
-    std::cout << "req: " << req->op << " " 
-              << req->param[0] << " " << req->param[1] << " " << req->param[2] << std::endl;
+    /*std::cout << "req: " << req->op << " " 
+              << req->param[0] << " " << req->param[1] << " " << req->param[2] << std::endl;*/
 
     switch(req->op)
     {
@@ -75,29 +75,29 @@ void RequestHandler::handle_group_message(Request* req)
     ghm->add_request(req);
 }
 
+
 void RequestHandler::handle_get(Request* req)
 {
     ll uid = req->param[0];
     int sockfd = (int)req->param[1];
     User* user = um->get_user(uid);
 
-    pthread_mutex_lock(&user->mutex_mq);
-    ll num = user->mq.size();
-    std::cout << "num: " << num << " message: " << std::endl;
-    sendfull(sockfd, (char*)&num, sizeof(ll), 0);
-    
-    for (int i = 0; i < num; i++)
-    {   Message* message = user->mq.front();
-        user->mq.pop();
-        std::cout << "message_id: " << message->message_id
-                  << " user_id: " << message->user_id
-                  << " group_id: " << message->group_id
-                  << std::endl;
-        sendfull(sockfd, (char*)message, sizeof(Message), 0);
+    char* cur = buf;
+    cur += sizeof(ll);
+    UserIterator* it = user->create_iterator();
+    ll num = 0;
+
+    for (it->first(); !it->is_done() && num <= MaxRequests; it->next(), num++)
+    {
+        Message* message = it->current_item();
+        memcpy(cur, (char*)message, sizeof(Message));
+        cur += sizeof(Message);
         delete message;
     }
-    std::cout << std::endl;
-    pthread_mutex_unlock(&user->mutex_mq);
+    delete it;
+
+    (*(ll*)buf) = num;
+    sendfull(sockfd, buf, cur - buf, 0);
 
     delete req;
 }
